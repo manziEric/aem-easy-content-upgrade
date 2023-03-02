@@ -29,6 +29,7 @@ import javax.annotation.Nonnull;
 import javax.jcr.query.Query;
 import javax.servlet.http.HttpServletResponse;
 
+import de.valtech.aecu.core.groovy.console.bindings.actions.properties.*;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.jackrabbit.JcrConstants;
 import org.apache.sling.api.resource.PersistenceException;
@@ -68,12 +69,6 @@ import de.valtech.aecu.core.groovy.console.bindings.actions.page.TreeActivatePag
 import de.valtech.aecu.core.groovy.console.bindings.actions.print.PrintJson;
 import de.valtech.aecu.core.groovy.console.bindings.actions.print.PrintPath;
 import de.valtech.aecu.core.groovy.console.bindings.actions.print.PrintProperty;
-import de.valtech.aecu.core.groovy.console.bindings.actions.properties.CopyPropertyToRelativePath;
-import de.valtech.aecu.core.groovy.console.bindings.actions.properties.DeleteProperty;
-import de.valtech.aecu.core.groovy.console.bindings.actions.properties.JoinProperty;
-import de.valtech.aecu.core.groovy.console.bindings.actions.properties.MovePropertyToRelativePath;
-import de.valtech.aecu.core.groovy.console.bindings.actions.properties.RenameProperty;
-import de.valtech.aecu.core.groovy.console.bindings.actions.properties.SetProperty;
 import de.valtech.aecu.core.groovy.console.bindings.actions.resource.ChangePrimaryType;
 import de.valtech.aecu.core.groovy.console.bindings.actions.resource.CopyResourceToRelativePath;
 import de.valtech.aecu.core.groovy.console.bindings.actions.resource.CreateResource;
@@ -376,6 +371,12 @@ public class ContentUpgradeImpl implements ContentUpgrade {
     }
 
     @Override
+    public ContentUpgrade doSetMixin(String mixinName) {
+        actions.add(new AddMixin(mixinName));
+        return this;
+    }
+
+    @Override
     public ContentUpgrade doJoinProperty(@Nonnull String name) {
         actions.add(new JoinProperty(name));
         return this;
@@ -402,6 +403,12 @@ public class ContentUpgradeImpl implements ContentUpgrade {
     @Override
     public ContentUpgrade doDeleteProperty(@Nonnull String name, String pathToSubnode) {
         actions.add(new DeleteProperty(name, pathToSubnode));
+        return this;
+    }
+
+    @Override
+    public ContentUpgrade doDeleteMixin(String mixinName) {
+        actions.add(new DeleteMixin(mixinName, null));
         return this;
     }
 

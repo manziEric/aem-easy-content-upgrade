@@ -324,6 +324,15 @@ public interface ContentUpgrade {
     ContentUpgrade doSetProperty(String name, Object value, String pathToSubnode, String primaryType);
 
     /**
+     * The mixin type adds additional child node or
+     * property definitions to a node
+     *
+     * @param mixinName property name
+     * @return upgrade object
+     **/
+    ContentUpgrade doSetMixin(String mixinName);
+
+    /**
      * Joins a property value into a single value. Uses "," to join multiple values. Deletes
      * properties with empty array values.
      *
@@ -367,6 +376,14 @@ public interface ContentUpgrade {
      * @return upgrade object
      */
     ContentUpgrade doDeleteProperty(String name, String pathToSubnode);
+
+    /**
+     * Deletes a mixin
+     *
+     * @param mixinName property name
+     * @return upgrade object
+     **/
+    ContentUpgrade doDeleteMixin(String mixinName);
 
     /**
      * Renames a property if existing.
